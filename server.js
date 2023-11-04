@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 const mySQL = require('mysql2');
-const cFonts = require('cfonts');
+const cfonts = require('cfonts');
 
 const connection = mySQL.createConnection({
     host: 'localhost',
@@ -16,7 +16,7 @@ connection.connect((err) =>{
     prompt();
 })
 
-cFonts.say('Welcome|Business|Owner', {
+cfonts.say('Welcome|Business|Owner', {
     font: 'block',              // define the font face
 	align: 'left',              // define text alignment
 	colors: ['system'],         // define all colors
@@ -68,55 +68,77 @@ function prompt(){
             case 'Add employee':
                 addEmployee();
                 break;
-            case 'Add manager':
-                addManager();
-                break;
             case 'Update emp role':
                 updateEmpRole();
                 break;
             case 'Exit app':
-                exit();
+                connection.end();
+                console.log('Exiting...\r\n Until next time... Business Owner')
                 break;
         }
     })
 };
 
 function viewAllDept(){
-
+// select all from departments
+// console log(response)
+// run prompt()
 };
 
 function viewAllEmpRoles(){
-
+// select all roles, id, depart, salaries
+// console.log(response)
+// run prompt()
 }
 
 function viewAllEmployees(){
-
+// select all employees
+// console.log(response)
+// run prompt()
 }
 
 function addDepartment(){
-
+// prompt new question: newDept
+// INSERT INTO departments
+// console.log(newDept)
+// run prompt()
 }
 
 function addRole(){
-
+// prompt new question: newRole
+    // inputQ: roleTitle
+    // inputQ2: roleSalary
+    //inputq3: roleDepartment
+// INSERT INTO roles
+// console.log(res.newRole)
+// run prompt()
 }
 
 function addEmployee(){
-
+// prompt new questions: newEmp
+    // inputQ1: empFirstName
+    // inputQ2: empLastName
+    // inputQ3: empRoleId (int)
+    // inputQ4: managerId (int) 
+        // or list/choices choose current managers
+// console.log(res)
+// run prompt()
 }
 
-function addManager(){
-
-}
 
 function updateEmpRole(){
-
+// prompt new questions: updateEmpRole
+    // q1: list/choices choose from list of current employees
+    // q2: list/choices choose from list of roles available
+// UPDATE employee list w/ employee roles
+// console.log(res)
+// run prompt()
 }
 
-function exit(){
-    
-}
 
+process.on('Exit app', () =>{
+    connection.end();
+})
 
 
 
