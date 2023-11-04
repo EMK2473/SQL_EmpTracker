@@ -79,5 +79,44 @@ function prompt(){
                 break;
         }
     })
+};
+
+function viewAllDept(){
+
+};
+
+function viewAllEmpRoles(){
+
 }
+
+function viewAllEmployees(){
+
+}
+
+function addDepartment(){
+
+}
+
+function addRole(){
+
+}
+
+function addEmployee(){
+
+}
+
+function addManager(){
+
+}
+
+function updateEmpRole(){
+
+}
+
+function exit(){
+    
+}
+
+
+
 
