@@ -11,12 +11,12 @@ values
 ('District Manager'),
 ('Local Manager'),
 ('Sales Rep'),
-('Grunt');
+('Grunt Employee');
 
 INSERT INTO roles (title, salary, department_id)
 values
 ('Chief Executive Officer', 1000000, 1),
-('Reginal Manager', 100000, 2),
+('Regional Manager', 100000, 2),
 ('District Manager', 75000, 3),
 ('Local Manager', 50000, 4),
 ('Sales Rep', 35000, 5),
