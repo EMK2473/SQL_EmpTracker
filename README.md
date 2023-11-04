@@ -19,7 +19,11 @@ Licensing: [mit](https://choosealicense.com/licenses/mit/)
 A command line application designed for business owners to view and manage the departments, roles, and employees in their company.
   
 ## Installation Requirements
-npm i inquirer@8.2.4 npm install --save mysql2 npm i cfonts -g
+inquirer@8.2.4 
+
+mysql2 
+
+cfonts 
   
 ## Application Usage
 Utilize the command line prompts to view and manage a database containing department, role, and employee information.
@@ -28,7 +32,11 @@ Utilize the command line prompts to view and manage a database containing depart
 Eric Keeton
   
 ## Test Commands
-npm i inquirer@8.2.4 npm install --save mysql2 npm i cfonts -g
+npm i inquirer@8.2.4 
+
+npm install --save mysql2 
+
+npm i cfonts -g
   
 ## Link to Video Instructions
 n/a
