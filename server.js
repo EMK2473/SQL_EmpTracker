@@ -85,6 +85,7 @@ function viewAllDept() {
   connection.query(query, (err, res) =>{
     if (err) throw err;
     console.table(res);
+    prompt();
   })
   // select all from departments
   // console log(response)
@@ -92,18 +93,42 @@ function viewAllDept() {
 }
 
 function viewAllEmpRoles() {
+  const query = 'SELECT roles.title, roles.id, role.salary, departments.department_name, from roles JOIN departments on roles.department_id = departments.id';
+  connection.query(query, (err, res) => {
+    if (err) throw err;
+    console.table(res);
+    prompt();
+  })
   // select all roles, id, depart, salaries
   // console.log(response)
   // run prompt()
 }
 
 function viewAllEmployees() {
+  const query = `SELECT employee.id, employee.first_name, role.title, departments.department_name, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager_name FROM employee employee 
+  LEFT JOIN roles roles ON employee.role_id = role.id
+  LEFT JOIN departments d on r.department_id = d.id
+  LEFT JOIN employee manager ON employee.manager_id = manager.id;`
   // select all employees
   // console.log(response)
   // run prompt()
 }
 
 function addDepartment() {
+  inquirer.prompt({
+    type: 'input',
+    name: 'newDep',
+    message: 'Name for new department:',
+  }).then((newDepart) =>{
+    console.log(newDepart.name);
+    const query = `INSERT INTO departments (department_name) VALUES ('${newDepart.name}')`;
+    connection.query(query, (err, res) =>{
+      if (err) throw err;
+      console.log(`New department ${newDepart.name}added!`);
+      prompt();
+      // console.log(answer.name);
+    })
+  })
   // prompt new question: newDept
   // INSERT INTO departments
   // console.log(newDept)
