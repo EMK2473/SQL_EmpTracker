@@ -1,17 +1,17 @@
-set base seed values for
-departments
-roles
-employee
+-- set base seed values for
+-- departments
+-- roles
+-- employee
 
 
 INSERT INTO departments (department_name)
 values
 ('CEO', 1),
-('Regional Manager'),
-('District Manager'),
-('Local Manager'),
-('Sales Rep'),
-('Grunt Employee');
+('Regional Operations'),
+('District Operations'),
+('Local Operations'),
+('Sale Operations'),
+('Grunt Level Operations');
 
 INSERT INTO roles (title, salary, department_id)
 values
@@ -23,10 +23,10 @@ values
 ('Grunt', 25000, 6);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-('Sir', 'CEO', 1, 1),
+('Mister', 'CEO', 1, 1),
 ('Miss', 'Regional', 2, 2),
 ('Mister', 'District', 3, 3),
-('Man', 'Local', 4, 4),
-('Lady', 'Sales', 5, 5),
+('Mister', 'Local', 4, 4),
+('Miss', 'Sales', 5, 5),
 ('Unlucky', 'Grunt', 6, 6);
 
