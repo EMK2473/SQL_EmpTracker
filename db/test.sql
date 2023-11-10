@@ -20,22 +20,22 @@ LEFT JOIN employee e ON e.role_id = r.id
 ORDER BY d.id;
 
 -- add dept name
--- INSERT INTO departments (department_name)
--- VALUES
--- ('CFO')
+INSERT INTO departments (department_name)
+VALUES
+('CFO')
 
 -- add role
--- INSERT INTO roles (title, salary, department_id)
--- VALUES
--- ('Chief Financial Officer', 2000000, 7);
--- SELECT * FROM roles;
+INSERT INTO roles (title, salary, department_id)
+VALUES
+('Chief Financial Officer', 2000000, 7);
+SELECT * FROM roles;
 
 
 -- add employee
--- INSERT INTO employee (first_name, last_name, role_id, manager_id)
--- VALUES
--- ('Miss', 'CFO', 7, 1);
--- SELECT * from employee;
+INSERT INTO employee (first_name, last_name, role_id, manager_id)
+VALUES
+('Miss', 'CFO', 7, 1);
+SELECT * from employee;
 
 
 --update employee
@@ -44,8 +44,8 @@ SET role_id = 1
 WHERE CONCAT(first_name, ' ', last_name) = 'Unlucky Grunty';
 SELECT * FROM employee;
 
--- SELECT * from employee
--- ORDER BY role_id;
+SELECT * from employee
+ORDER BY role_id;
 
 
 -- next to do:
