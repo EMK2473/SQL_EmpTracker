@@ -1,8 +1,5 @@
 const inquirer = require("inquirer");
 const mySQL = require("mysql2");
-const departmentFunctions = require("./depFunct");
-const roleFunctions = require("./roleFunct");
-const employeeFunctions = require("./empFunct");
 
 const connection = mySQL.createConnection({
   host: "localhost",
@@ -310,6 +307,6 @@ async function updateEmpRole() {
   }
 }
 
-process.on("Exit app", () => {
+process.on("exit", () => {
   connection.end();
 });
