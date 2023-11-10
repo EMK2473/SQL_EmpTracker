@@ -15,10 +15,10 @@ connection.connect((err) => {
     return;
   }
   console.log("Connected");
-  start();
+  startApp();
 });
 
-async function start() {
+async function startApp() {
   const answers = await inquirer.prompt({
     type: "list",
     name: "promptStart",
@@ -46,9 +46,9 @@ async function start() {
     case "Add department":
       addDepartment();
       break;
-    // case "Add role":
-    //   addRole();
-    //   break;
+    case "Add role":
+      addRole();
+      break;
     // case "Add employee":
     //   addEmployee();
     //   break;
@@ -72,7 +72,7 @@ function viewAllDepartments() {
       console.error("Error executing query:", err);
     } else {
       console.table(res);
-      start();
+      startApp();
     }
   });
 }
@@ -84,7 +84,7 @@ function viewAllEmployees() {
       console.error("Error executing query:", err);
     } else {
       console.table(res);
-      start();
+      startApp();
     }
   });
 }
@@ -96,7 +96,7 @@ function viewAllRoles() {
       console.error("Error executing query:", err);
     } else {
       console.table(res);
-      start();
+      startApp();
     }
   });
 }
@@ -105,24 +105,77 @@ async function addDepartment() {
   try {
     const answer = await inquirer.prompt({
       type: "input",
-      name: "name",
+      name: "newDept",
       message: "Enter the name of the new department:",
     });
-    console.log(answer.name);
+    console.log(answer.newDept);
     const query = `INSERT INTO departments (department_name) VALUES (?)`;
-    connection.query(query, [answer.name], (err, res) => {
+    connection.query(query, [answer.newDept], (err, res) => {
       if (err) {
-        console.error('Error executing query:', err);
+        console.error("Error executing query:", err);
         return;
       }
-      console.log(`Added department ${answer.name} to the database!`);
-      start();
+      console.log(`Added department ${answer.newDept} to the database!`);
+      startApp();
     });
   } catch (error) {
-    console.error('Error adding department:', error);
+    console.error("Error adding department:", error);
   }
 }
 
+async function addRole() {
+  const query = "SELECT * FROM departments";
+  try {
+    const res = await new Promise((resolve, reject) => {
+      connection.query(query, (err, result) => {
+        if (err) reject(err);
+        else resolve(result);
+      });
+    });
+    const answers = await inquirer.prompt([
+      {
+        type: "input",
+        name: "title",
+        message: "Enter the title of the new role:",
+      },
+      {
+        type: "input",
+        name: "salary",
+        message: "Enter the salary of the new role:",
+      },
+      {
+        type: "list",
+        name: "department",
+        message: "Select the department for the new role:",
+        choices: res.map((department) => department.department_name),
+      },
+    ]);
+    const department = res.find(
+      (department) => department.department_name === answers.department
+    );
+    const insertQuery = "INSERT INTO roles SET ?";
+    await new Promise((resolve, reject) => {
+      connection.query(insertQuery,
+        {
+          title: answers.title,
+          salary: answers.salary,
+          department_id: department.id,
+        },
+        (err, result) => {
+          if (err) reject(err);
+          else resolve(result);
+        }
+      );
+    });
+    console.log(
+      `A new role ${answers.title}, with the salary ${answers.salary}, was added to the ${answers.department} department!`
+    );
+    startApp();
+  } catch (err) {
+    console.error(err);
+  }
+}
+   
 
 process.on("Exit app", () => {
   connection.end();
