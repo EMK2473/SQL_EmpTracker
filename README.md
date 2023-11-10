@@ -18,15 +18,15 @@ Licensing: [mit](https://choosealicense.com/licenses/mit/)
 
 ## Description
 
-A command line application designed for business owners to view and manage the departments, roles, and employees in their company.
+A command line application designed for business owners to view and manage the departments, roles, and employees.
 
 ## Installation Requirements
 
 inquirer
+ - npm i inquirer@8.2.4
 
 mysql2
-
-cfonts
+ - npm install --save mysql2
 
 ## Application Usage
 
@@ -37,12 +37,13 @@ Utilize the command line prompts to view and manage a database containing depart
 Eric Keeton
 
 ## Test Commands
+mysql -u root -p
 
-npm i inquirer@8.2.4
+source schema.sql;
 
-npm install --save mysql2
+source seeds.sql;
 
-npm i cfonts -g
+node server.js
 
 ## Link to Video Instructions
 
@@ -50,7 +51,7 @@ n/a
 
 ## Screenshot
 
-![screenshot of application](n/a)
+![screenshot of application](./assets/screenshot.png)
 
 ## Questions
 

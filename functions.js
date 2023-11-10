@@ -1,7 +1,7 @@
 const inquirer = require("inquirer");
 
 function viewAllDepartments(connection, startApp) {
-  const query = `SELECT d.department_name AS department, r.title AS role, d.id AS departmentId
+  const query = `SELECT d.id AS departmentID, d.department_name AS Department, r.title AS Role
   FROM departments d
   LEFT JOIN roles r ON r.department_id = d.id
   ORDER BY d.id;`;
@@ -16,27 +16,44 @@ function viewAllDepartments(connection, startApp) {
   });
 }
 
-function viewAllEmployees(connection, startApp) {
-  const query = `select CONCAT(first_name, ' ', last_name) AS allEmp from employee;`;
-  connection.query(query, (err, res) => {
-    if (err) {
-      console.error("Error executing query:", err);
-    } else {
-      console.table(res);
-      console.log('Here are all of your employees! ^^');
-      startApp(connection);
-    }
-  });
-}
-
 function viewAllRoles(connection, startApp) {
-  const query = `select title, salary from roles;`;
+  const query = `SELECT r.id ID, r.title Title, r.salary Salary, d.department_name Department
+  FROM roles r
+  JOIN departments d ON r.department_id = d.id;`;
   connection.query(query, (err, res) => {
     if (err) {
       console.error("Error executing query:", err);
     } else {
       console.table(res);
       console.log('Here are all of your roles! ^^');
+      startApp(connection);
+    }
+  });
+}
+
+function viewAllEmployees(connection, startApp) {
+  const query = `SELECT
+  e.id AS Employee_ID,
+  CONCAT(e.first_name, ' ', e.last_name) AS Employees,
+  r.title AS Job_Title,
+  d.department_name AS Department,
+  r.salary AS Salary,
+  m.id AS Manager_ID,
+  CONCAT(m.first_name, ' ', m.last_name) AS Manager_Name
+FROM
+  employee e
+JOIN
+  roles r ON e.role_id = r.id
+JOIN
+  departments d ON r.department_id = d.id
+LEFT JOIN
+  employee m ON e.manager_id = m.id;`;
+  connection.query(query, (err, res) => {
+    if (err) {
+      console.error("Error executing query:", err);
+    } else {
+      console.table(res);
+      console.log('Here are all of your employees! ^^');
       startApp(connection);
     }
   });
