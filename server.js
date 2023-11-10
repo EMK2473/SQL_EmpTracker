@@ -37,8 +37,8 @@ async function startApp(connection) {
     choices: [
       "View all operations",
       "View all departments",
-      "View all employees",
       "View all roles",
+      "View all employees",
       "Add department",
       "Add role",
       "Add employee",

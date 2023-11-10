@@ -1,5 +1,22 @@
 const inquirer = require("inquirer");
 
+function viewBusiness(connection, startApp) {
+  const query = `SELECT d.id AS departmentId, d.department_name AS department, r.title AS role, CONCAT(e.first_name, ' ', e.last_name) AS emp, r.salary AS Salary
+    FROM departments d
+    LEFT JOIN roles r ON r.department_id = d.id
+    LEFT JOIN employee e ON e.role_id = r.id
+    ORDER BY d.id;`;
+  connection.query(query, (err, res) => {
+    if (err) {
+      console.error("Error executing query:", err);
+    } else {
+      console.table(res);
+      console.log('Here are all of your business operations! ^^');
+      startApp(connection);
+    }
+  });
+}
+
 function viewAllDepartments(connection, startApp) {
   const query = `SELECT d.id AS departmentID, d.department_name AS Department, r.title AS Role
   FROM departments d
@@ -203,22 +220,6 @@ async function addRole(connection, startApp) {
     } catch (error) {
       console.error(error);
     }
-  }
-  function viewBusiness(connection, startApp) {
-    const query = `SELECT d.id AS departmentId, d.department_name AS department, r.title AS role, CONCAT(e.first_name, ' ', e.last_name) AS emp, r.salary AS Salary
-      FROM departments d
-      LEFT JOIN roles r ON r.department_id = d.id
-      LEFT JOIN employee e ON e.role_id = r.id
-      ORDER BY d.id;`;
-    connection.query(query, (err, res) => {
-      if (err) {
-        console.error("Error executing query:", err);
-      } else {
-        console.table(res);
-        console.log('Here are all of your business operations! ^^');
-        startApp(connection);
-      }
-    });
   }
   
   async function updateEmpRole(connection, startApp) {
