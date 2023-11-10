@@ -1,5 +1,8 @@
 const inquirer = require("inquirer");
 const mySQL = require("mysql2");
+const departmentFunctions = require("./depFunct");
+const roleFunctions = require("./roleFunct");
+const employeeFunctions = require("./empFunct");
 
 const connection = mySQL.createConnection({
   host: "localhost",
@@ -31,6 +34,7 @@ async function startApp() {
       "Add role",
       "Add employee",
       "Update employee role",
+      'View entire business',
       "Exit app",
     ],
   });
@@ -43,6 +47,7 @@ async function startApp() {
       break;
     case "View all roles":
       viewAllRoles();
+      break;
     case "Add department":
       addDepartment();
       break;
@@ -52,9 +57,12 @@ async function startApp() {
     case "Add employee":
       addEmployee();
       break;
-    // case "Update emp role":
-    //   updateEmpRole();
-    //   break;
+    case 'View entire business':
+      viewBusiness();
+      break;
+    case "Update employee role":
+      updateEmpRole();
+      break;
     case "Exit app":
       connection.end();
       console.log("Exiting...\r\n Until next time... Business Owner. o7");
@@ -229,6 +237,78 @@ async function addEmployee() {
     console.error(error);
   }
 };
+
+function viewBusiness() {
+  const query = `SELECT d.department_name AS department, r.title AS role, d.id AS departmentId, CONCAT(e.first_name, ' ', e.last_name) AS emp
+  FROM departments d
+  LEFT JOIN roles r ON r.department_id = d.id
+  LEFT JOIN employee e ON e.role_id = r.id
+  ORDER BY d.id;`;
+  connection.query(query, (err, res) => {
+    if (err) {
+      console.error("Error executing query:", err);
+    } else {
+      console.table(res);
+      startApp();
+    }
+  });
+};
+
+async function updateEmpRole() {
+  try {
+    const queryEmployees =
+      "SELECT employee.id, employee.first_name, employee.last_name, roles.title FROM employee LEFT JOIN roles ON employee.role_id = roles.id";
+    const queryRoles = "SELECT * FROM roles";
+    const [resEmployees, resRoles] = await Promise.all([
+      new Promise((resolve, reject) => {
+        connection.query(queryEmployees, (err, result) => {
+          if (err) reject(err);
+          else resolve(result);
+        });
+      }),
+      new Promise((resolve, reject) => {
+        connection.query(queryRoles, (err, result) => {
+          if (err) reject(err);
+          else resolve(result);
+        });
+      }),
+    ]);
+    const answers = await inquirer.prompt([
+      {
+        type: "list",
+        name: "employee",
+        message: "Select the employee to update:",
+        choices: resEmployees.map(
+          (employee) => `${employee.first_name} ${employee.last_name}`
+        ),
+      },
+      {
+        type: "list",
+        name: "role",
+        message: "Select the new role:",
+        choices: resRoles.map((role) => role.title),
+      },
+    ]);
+    const employee = resEmployees.find(
+      (employee) =>
+        `${employee.first_name} ${employee.last_name}` === answers.employee
+    );
+    const role = resRoles.find((r) => r.title === answers.role);
+    const updateQuery = "UPDATE employee SET role_id = ? WHERE id = ?";
+    await new Promise((resolve, reject) => {
+      connection.query(updateQuery, [role.id, employee.id], (err) => {
+        if (err) reject(err);
+        else resolve();
+      });
+    });
+    console.log(
+      `Updated ${employee.first_name} ${employee.last_name}'s role to ${role.title} in the database!`
+    );
+    startApp();
+  } catch (err) {
+    console.error(err);
+  }
+}
 
 process.on("Exit app", () => {
   connection.end();
