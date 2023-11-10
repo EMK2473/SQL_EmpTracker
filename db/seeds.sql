@@ -18,7 +18,7 @@ VALUES
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES
-('Mister', 'CEO', 1, 0),
+('Mister', 'CEO', 1, NULL),
 ('Miss', 'Regional', 2, 1),
 ('Mister', 'District', 3, 2),
 ('Mister', 'Local', 4, 3),

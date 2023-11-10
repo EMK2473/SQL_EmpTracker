@@ -90,8 +90,7 @@ async function addDepartment(connection, startApp) {
         console.error("Error executing query:", err);
         return;
       }
-      console.log(`Added department ${answer.newDept} to the database!`);
-      console.log(`\r\nDon't forget to add a new role for the new department: ${answer.newDept}!`);
+      console.log(`\r\n${answer.newDept} added!\r\nSelect: 'View all departments' to view ${answer.newDept}.\r\nDon't forget to add a new role for the new ${answer.newDept} department!`);
       startApp(connection);
     });
   } catch (error) {
@@ -144,7 +143,7 @@ async function addRole(connection, startApp) {
         );
       });
       console.log(
-        `A new role ${answers.title}, with the salary ${answers.salary}, was added to the ${answers.department} department!`
+        `The new role ${answers.title}, with the salary ${answers.salary}, was added to the ${answers.department} department!`
       );
       startApp(connection);
     } catch (err) {
@@ -215,7 +214,7 @@ async function addRole(connection, startApp) {
           else resolve();
         });
       });
-      console.log("Employee added successfully");
+      console.log(`\r\n${answers.firstName} ${answers.lastName} successfully added as an employee!`);
       startApp(connection);
     } catch (error) {
       console.error(error);
