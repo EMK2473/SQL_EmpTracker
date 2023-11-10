@@ -49,9 +49,9 @@ async function startApp() {
     case "Add role":
       addRole();
       break;
-    // case "Add employee":
-    //   addEmployee();
-    //   break;
+    case "Add employee":
+      addEmployee();
+      break;
     // case "Update emp role":
     //   updateEmpRole();
     //   break;
@@ -175,7 +175,60 @@ async function addRole() {
     console.error(err);
   }
 }
-   
+  
+async function addEmployee() {
+  try {
+    const roles = await new Promise((resolve, reject) => {
+      connection.query("SELECT id, title FROM roles", (error, results) => {
+        if (error) reject(error);
+        else resolve(results.map(({ id, title }) => ({ name: title, value: id })));
+      });
+    });
+    const managers = await new Promise((resolve, reject) => {
+      connection.query('SELECT id, CONCAT(first_name, " ", last_name) AS name FROM employee', (error, results) => {
+        if (error) reject(error);
+        else resolve([{ name: "None", value: null }, ...results.map(({ id, name }) => ({ name, value: id }))]);
+      });
+    });
+    const answers = await inquirer.prompt([
+      {
+        type: "input",
+        name: "firstName",
+        message: "Enter the employee's first name:",
+      },
+      {
+        type: "input",
+        name: "lastName",
+        message: "Enter the employee's last name:",
+      },
+      {
+        type: "list",
+        name: "roleId",
+        message: "Select the employee role:",
+        choices: roles,
+      },
+      {
+        type: "list",
+        name: "managerId",
+        message: "Select the employee manager:",
+        choices: managers,
+      },
+    ]);
+    const sql = "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)";
+    const values = [answers.firstName, answers.lastName, answers.roleId, answers.managerId];
+
+    await new Promise((resolve, reject) => {
+      connection.query(sql, values, (error) => {
+        if (error) reject(error);
+        else resolve();
+      });
+    });
+    console.log("Employee added successfully");
+    startApp();
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 process.on("Exit app", () => {
   connection.end();
