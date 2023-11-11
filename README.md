@@ -18,7 +18,7 @@ Licensing: [mit](https://choosealicense.com/licenses/mit/)
 
 ## Description
 
-A command line application designed for business owners to view and manage the departments, roles, and employees.
+A command line application designed for business owners to view and manage their departments, roles, and employees.
 
 ## Installation Requirements
 
@@ -30,7 +30,7 @@ mysql2
 
 ## Application Usage
 
-Utilize the command line prompts to view and manage a database containing department, role, and employee information.
+Utilize command line prompts to view and manage a database containing departments, roles, and employee information.
 
 ## Contributions
 
