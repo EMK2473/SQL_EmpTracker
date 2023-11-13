@@ -146,7 +146,7 @@ async function addRole(connection, startApp) {
       );
     });
     console.log(
-      `The new role ${answers.title}, with the salary ${answers.salary}, was added to the ${answers.department} department!`
+      `\r\nThe new role ${answers.title}, with the salary ${answers.salary}, was added to the ${answers.department} department! \r\nDon't forget to check 'View all departments' to see ${answers.title} role populated!`
     );
     startApp(connection);
   } catch (err) {
@@ -158,7 +158,7 @@ async function addEmployee(connection, startApp) {
   try {
     const roles = await new Promise((resolve, reject) => {
       connection.query("SELECT id, title FROM roles", (error, results) => {
-        if (error) reject(error);
+        if (error) reject(error); 
         else
           resolve(results.map(({ id, title }) => ({ name: title, value: id })));
       });

@@ -1,3 +1,4 @@
+require('dotenv').config(); 
 const inquirer = require("inquirer");
 const mySQL = require("mysql2");
 const {
@@ -12,11 +13,11 @@ const {
 } = require("./functions");
 
 const connection = mySQL.createConnection({
-  host: "localhost",
-  port: 3306,
-  user: "root",
-  password: "mentos",
-  database: "employeetracker_db",
+  host: process.env.host,
+  port: process.env.port,
+  user: process.env.user,
+  password: process.env.password,
+  database: process.env.database
 });
 
 connection.connect((err) => {
@@ -35,7 +36,7 @@ async function startApp(connection) {
     message:
       "\r\no/  Hello Business Owner!\r\n \r\nLet's operate your business: ",
     choices: [
-      "View all operations",
+      "View all operations", 
       "View all departments",
       "View all roles",
       "View all employees",
@@ -73,7 +74,7 @@ async function startApp(connection) {
       break;
     case "Exit app":
       connection.end();
-      console.log("Exiting...\r\n \r\nUntil next time... o/");
+      console.log("Disconnecting...\r\n \r\nUntil next time... o/");
       break;
   }
 }

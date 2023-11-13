@@ -23,10 +23,12 @@ A command line application designed for business owners to view and manage their
 ## Installation Requirements
 
 inquirer
- - npm i inquirer@8.2.4
+
+- npm i inquirer@8.2.4
 
 mysql2
- - npm install --save mysql2
+
+- npm install --save mysql2
 
 ## Application Usage
 
@@ -37,6 +39,7 @@ Utilize command line prompts to view and manage a database containing department
 Eric Keeton
 
 ## Test Commands
+
 mysql -u root -p
 
 source schema.sql;
@@ -47,7 +50,7 @@ node server.js
 
 ## Link to Video Instructions
 
-n/a
+https://drive.google.com/file/d/1wsM_1urU9xrarY-6SzKSyDOEsneCzteA/view
 
 ## Screenshot
 
