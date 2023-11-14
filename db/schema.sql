@@ -26,4 +26,6 @@ manager_id INT,
 FOREIGN KEY (manager_id)
 REFERENCES roles(id)
 ON DELETE SET NULL
+FOREIGN KEY (manager_id)
+REFERENCES employee(id) 
 );

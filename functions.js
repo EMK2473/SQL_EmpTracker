@@ -158,7 +158,7 @@ async function addEmployee(connection, startApp) {
   try {
     const roles = await new Promise((resolve, reject) => {
       connection.query("SELECT id, title FROM roles", (error, results) => {
-        if (error) reject(error); 
+        if (error) reject(error);
         else
           resolve(results.map(({ id, title }) => ({ name: title, value: id })));
       });
@@ -290,3 +290,6 @@ module.exports = {
   viewBusiness,
   updateEmpRole,
 };
+
+
+// db.promise().query
